@@ -12,6 +12,30 @@ And start developing
 ./scripts/start.sh
 ```
 
+
+## Docker
+
+You can run the entire web app with all the necessary services inside Docker:
+
+```shell
+docker-compose up
+```
+
+To run `python manage.py` commands use `docker-compose run cli` instead:
+
+```shell
+docker-compose run cli migrate
+docker-compose run cli createsuperuser
+```
+
+If you want to run Django with runserver for better debug output,
+update the *docker-compose.yml* file.
+
+
+## Frontend details
+
+
+
 # Deployment
 
 You can deploy your Django web app to different PaaS providers
@@ -40,8 +64,8 @@ Once this initial setup is working, you normally deploy by issuing:
 ## Dokku
 
 Dokku is an alternative to Heroku that you can self-host. We assume that your
-Dokku server uses the hostname *dokku.me* in the commands bellow –
-replace it with your actual hostname.
+Dokku server uses the hostname (and email) *dokku.me* in the commands bellow –
+replace with your actual information.
 
 SSH into your Dokku host and create the app:
 
@@ -54,8 +78,7 @@ dokku postgres:create hellodjangorestdb
 dokku postgres:link hellodjangorestdb hellodjangorest
 dokku redis:create hellodjangorestredis
 dokku redis:link hellodjangorestredis hellodjangorest
-dokku config:set --no-restart hellodjango DOKKU_LETSENCRYPT_EMAIL=youremail@dokku.me
-dokku letsencrypt hellodjangorest
+dokku config:set --no-restart hellodjangorest DOKKU_LETSENCRYPT_EMAIL=youremail@dokku.me
 ```
 
 Inside your project do:
@@ -65,22 +88,21 @@ git remote add dokku dokku@mirkwood.dev:hellodjangorest
 git push -u dokku master
 ```
 
+Now a few more commands on the server:
+
+```shell
+dokku letsencrypt hellodjangorest
+dokku run hellodjangorest python manage.py migrate
+```
+
 That's it! Your app should be live on https://hellodjangorest.dokku.me
 
 
-## Frontend details
-
-
-## Upgrading the scaffolding
+# Upgrading the scaffolding
 
 The scaffolding for this Django project was built using
-[generator-django-rest][]. If you think of an improvement for your
-Django project and that could benefit a wider range of projects
-(e.g. auth, user management, caching improvements etc.), please consider
-[contributing back][generator-django-rest].
-
-To upgrade your project with the latest version of generator-django-rest
-install `node` and get these npm package:
+[generator-django-rest][]. To upgrade your project with the latest version
+of generator-django-rest install `node` and get these npm package:
 
 ```shell
 npm install -g yo generator-django-rest
@@ -101,25 +123,6 @@ yo django-rest hellodjangorest
 ```
 
 And resolve any conflicts using the interactive queries.
-
-
-## Docker
-
-To run `python manage.py` commands use `docker-compose run cli` instead:
-
-```shell
-docker-compose run cli migrate
-docker-compose run cli createsuperuser
-```
-
-And to run the entire application with necessary services:
-
-```shell
-docker-compose up
-```
-
-If you want to run Django with runserver for better debug output,
-update the *docker-compose.yml* file.
 
 
 [generator-django-rest]: https://github.com/metakermit/generator-django-rest
