@@ -12,7 +12,12 @@ And start developing
 ./scripts/start.sh
 ```
 
-## Deployment to Heroku
+# Deployment
+
+You can deploy your Django web app to different PaaS providers
+in just a few commands.
+
+## Heroku
 
 You can quickly deploy hellodjangorest to Heroku:
 
@@ -31,6 +36,37 @@ Once this initial setup is working, you normally deploy by issuing:
 ```shell
 ./scripts/deploy.sh
 ```
+
+## Dokku
+
+Dokku is an alternative to Heroku that you can self-host. We assume that your
+Dokku server uses the hostname *dokku.me* in the commands bellow –
+replace it with your actual hostname.
+
+SSH into your Dokku host and create the app:
+
+```shell
+dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+dokku plugin:install https://github.com/dokku/dokku-postgres.git
+dokku plugin:install https://github.com/dokku/dokku-redis.git
+dokku apps:create hellodjangorest
+dokku postgres:create hellodjangorestdb
+dokku postgres:link hellodjangorestdb hellodjangorest
+dokku redis:create hellodjangorestredis
+dokku redis:link hellodjangorestredis hellodjangorest
+dokku config:set --no-restart hellodjango DOKKU_LETSENCRYPT_EMAIL=youremail@dokku.me
+dokku letsencrypt hellodjangorest
+```
+
+Inside your project do:
+
+```shell
+git remote add dokku dokku@mirkwood.dev:hellodjangorest
+git push -u dokku master
+```
+
+That's it! Your app should be live on https://hellodjangorest.dokku.me
+
 
 ## Frontend details
 
