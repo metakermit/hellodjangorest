@@ -61,6 +61,8 @@ Once this initial setup is working, you normally deploy by issuing:
 ./scripts/deploy.sh
 ```
 
+And you're running on Heroku! 🚀
+
 ## Dokku
 
 Dokku is an alternative to Heroku that you can self-host. We assume that your
@@ -84,7 +86,7 @@ dokku config:set --no-restart hellodjangorest DOKKU_LETSENCRYPT_EMAIL=youremail@
 Inside your project do:
 
 ```shell
-git remote add dokku dokku@mirkwood.dev:hellodjangorest
+git remote add dokku dokku@dokku.me:hellodjangorest
 git push dokku master
 ```
 
@@ -95,7 +97,7 @@ dokku letsencrypt hellodjangorest
 dokku run hellodjangorest python manage.py migrate
 ```
 
-That's it! Your app should be live on https://hellodjangorest.dokku.me
+That's it! Your app should be live on https://hellodjangorest.dokku.me 🚀
 
 
 # Upgrading the scaffolding
