@@ -1,0 +1,6 @@
+redis: redis-server
+pg: postgres -D tmp/postgres -p 5433
+worker: celery worker -A hellodjangorest.celery --loglevel=info --logfile=worker.log -B
+web: python manage.py runserver_plus
+# web: gunicorn hellodjangorest.wsgi
+
