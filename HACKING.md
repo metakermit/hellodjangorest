@@ -85,7 +85,7 @@ Inside your project do:
 
 ```shell
 git remote add dokku dokku@mirkwood.dev:hellodjangorest
-git push -u dokku master
+git push dokku master
 ```
 
 Now a few more commands on the server:
